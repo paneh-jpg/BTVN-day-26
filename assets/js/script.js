@@ -18,6 +18,12 @@ ul.addEventListener("click", (e) => {
   }
   if (e.target.classList.contains("item")) {
     e.stopPropagation();
+
+    if (e.target.classList.contains("active")) {
+      e.target.classList.remove("active");
+      return;
+    }
+
     removeActive();
     e.target.classList.add("active");
 
@@ -57,3 +63,93 @@ function handleDuplicate(e, item) {
     }
   }
 }
+
+const contextMenu = document.querySelector("#context-menu");
+const renameBtn = contextMenu.querySelector("#rename");
+const deleteBtn = contextMenu.querySelector("#delete");
+
+const modal = document.querySelector("#modal");
+const modalTitle = modal.querySelector("#modal-title");
+const modalBody = modal.querySelector("#modal-body");
+const cancelBtn = modal.querySelector("#modal-cancel");
+const confirmBtn = modal.querySelector("#modal-confirm");
+
+let currentItem = null;
+ul.addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+  if (e.target.classList.contains("item")) {
+    contextMenu.style.left = e.clientX + "px";
+    contextMenu.style.top = e.clientY + "px";
+    contextMenu.style.display = "block";
+  }
+
+  currentItem = e.target;
+});
+
+document.addEventListener("click", () => {
+  contextMenu.style.display = "none";
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    contextMenu.style.display = "none";
+  }
+});
+
+deleteBtn.addEventListener("click", (e) => {
+  if (!currentItem) return;
+
+  modal.classList.remove("hide");
+  modalTitle.innerHTML = "Are you sure you want to delete?";
+  modalBody.innerHTML = ` <p>Please note that once this item is deleted, it cannot be restored.</p>`;
+
+  confirmBtn.onclick = () => {
+    currentItem.remove();
+    currentItem = null;
+    modal.classList.add("hide");
+
+    closeModal();
+  };
+});
+
+renameBtn.addEventListener("click", (e) => {
+  if (!currentItem) return;
+
+  modal.classList.remove("hide");
+  modalTitle.innerHTML = "Rename Item";
+  modalBody.innerHTML = "Enter a new name:";
+
+  const input = document.createElement("input");
+  input.style.width = "95%";
+  input.style.marginTop = "8px";
+  input.style.padding = "10px";
+  input.value = currentItem.childNodes[0].textContent.trim();
+  modalBody.appendChild(input);
+  input.focus();
+  confirmBtn.onclick = () => {
+    const newValue = input.value.trim();
+    console.log(newValue);
+
+    if (newValue !== "") {
+      currentItem.childNodes[0].textContent = newValue + " ";
+    }
+
+    modal.classList.add("hide");
+  };
+});
+
+function closeModal() {
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal || e.target === cancelBtn) {
+      modal.classList.add("hide");
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      modal.classList.add("hide");
+    }
+  });
+}
+
+closeModal();

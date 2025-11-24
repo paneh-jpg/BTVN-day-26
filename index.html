@@ -17,6 +17,8 @@
   </head>
   <body>
     <h1>Exercise 02</h1>
+
+    <!-- Menu Item  -->
     <div class="content">
       <ul>
         <li class="item">
@@ -47,6 +49,25 @@
       </ul>
     </div>
 
+    <!-- Context menu  -->
+    <div class="context-menu" id="context-menu">
+      <button id="rename" class="btn">Rename</button>
+      <button id="delete" class="btn">Delete</button>
+    </div>
+
+    <!-- Modal  -->
+    <div id="modal" class="modal hide">
+      <div class="modal-content">
+        <h3 id="modal-title"></h3>
+
+        <div id="modal-body"></div>
+
+        <div class="modal-actions">
+          <button id="modal-cancel" class="btn btn-cancel">Cancel</button>
+          <button id="modal-confirm" class="btn btn-confirm">Confirm</button>
+        </div>
+      </div>
+    </div>
     <script src="./assets/js/script.js"></script>
   </body>
 </html>

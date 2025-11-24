@@ -1,5 +1,9 @@
 body {
   font-family: "Roboto Mono", monospace;
+  /* width: calc(100% - 400px); */
+  width: calc(100% - 40px);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 a {
@@ -10,10 +14,22 @@ a {
 
 .up,
 .down {
+  flex-shrink: 0;
+  font-size: 16px;
+  display: inline-block;
   color: #fff;
   background-color: rgb(52, 180, 52);
-  padding: 4px 7px;
+  padding: 6px 10px;
   border-radius: 10px;
+
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.up {
+  right: 80px;
 }
 
 .down {
@@ -22,21 +38,31 @@ a {
 
 .content {
   background-color: #fff;
-  width: 300px;
+  width: 400px;
   border: 2px solid #333;
   border-radius: 30px;
+  margin-right: -30px;
 }
 
 ul {
   list-style: none;
+  width: inherit;
 }
 
 li {
+  position: relative;
+  font-size: 18px;
   font-weight: 600;
-
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
   border: 2px solid #fff;
-  width: 200px;
   padding: 20px 10px;
+
+  width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 li.active {
@@ -44,7 +70,6 @@ li.active {
 }
 
 span {
-  margin-left: 10px;
   cursor: pointer;
   transition: box-shadow 0.5s ease;
   user-select: none;
@@ -54,4 +79,72 @@ span:hover {
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
     rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+.context-menu {
+  width: 100px;
+  background-color: #ebebeb;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  display: none;
+}
+
+.btn {
+  width: 100%;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  padding: 10px 15px;
+  font-weight: 600;
+}
+
+.btn:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+/* Modal  */
+.modal {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  position: fixed;
+  width: 400px;
+  background-color: #fff;
+  padding: 10px 20px 20px 20px;
+  border-radius: 20px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.btn-cancel,
+.btn-confirm,
+.btn-cancel:active,
+.btn-cancel:hover {
+  border-radius: 8px;
+  background-color: #fff;
+  border: 1px solid #333;
+  color: #333;
+}
+
+.btn-confirm {
+  background-color: #333;
+  color: #fff;
+}
+
+.hide {
+  display: none;
 }
