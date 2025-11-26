@@ -3,6 +3,7 @@ const ul = document.querySelector("ul");
 ul.addEventListener("click", (e) => {
   const li = e.target.parentElement;
   if (e.target.classList.contains("down")) {
+    if (!li || !li.classList.contains("active")) return;
     const nextLi = li.nextElementSibling;
     if (!nextLi) {
       return;
@@ -10,6 +11,7 @@ ul.addEventListener("click", (e) => {
     ul.insertBefore(nextLi, li);
   }
   if (e.target.classList.contains("up")) {
+    if (!li || !li.classList.contains("active")) return;
     const prevLi = li.previousElementSibling;
     if (!prevLi) {
       return;
@@ -45,7 +47,7 @@ function removeActive() {
   });
 }
 
-document.addEventListener("click", () => {
+document.addEventListener("click", (e) => {
   if (!e.target.closest("li.item")) {
     removeActive();
   }
@@ -81,13 +83,19 @@ const confirmBtn = modal.querySelector("#modal-confirm");
 let currentItem = null;
 ul.addEventListener("contextmenu", (e) => {
   e.preventDefault();
+
+  const li = e.target.closest("li.item");
+  if (!li) return;
+
   if (e.target.classList.contains("item")) {
     contextMenu.style.left = e.clientX + "px";
     contextMenu.style.top = e.clientY + "px";
     contextMenu.style.display = "block";
   }
 
-  currentItem = e.target;
+  removeActive();
+  li.classList.add("active");
+  currentItem = li;
 });
 
 document.addEventListener("click", () => {
