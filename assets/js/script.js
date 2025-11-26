@@ -1,7 +1,7 @@
 const ul = document.querySelector("ul");
 
 ul.addEventListener("click", (e) => {
-  const li = e.target.parentElement;
+  const li = e.target.closest("li.item");
   if (e.target.classList.contains("down")) {
     if (!li || !li.classList.contains("active")) return;
     const nextLi = li.nextElementSibling;
@@ -124,6 +124,13 @@ deleteBtn.addEventListener("click", (e) => {
   };
 });
 
+function escapeHTML(html) {
+  return html
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
 renameBtn.addEventListener("click", (e) => {
   if (!currentItem) return;
 
@@ -138,16 +145,22 @@ renameBtn.addEventListener("click", (e) => {
   input.value = currentItem.childNodes[0].textContent.trim();
   modalBody.appendChild(input);
   input.focus();
-  confirmBtn.onclick = () => {
-    const newValue = input.value.trim();
-    console.log(newValue);
+
+  function applyRename() {
+    const newValue = escapeHTML(input.value.trim());
 
     if (newValue !== "") {
       currentItem.childNodes[0].textContent = newValue + " ";
     }
-
     modal.classList.add("hide");
-  };
+  }
+  confirmBtn.onclick = applyRename;
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      applyRename();
+    }
+  });
 });
 
 function closeModal() {
