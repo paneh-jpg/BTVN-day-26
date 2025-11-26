@@ -34,6 +34,8 @@ ul.addEventListener("click", (e) => {
   }
 });
 
+function addActive() {}
+
 function removeActive() {
   const liList = document.querySelectorAll("li");
   liList.forEach((li) => {
@@ -44,7 +46,9 @@ function removeActive() {
 }
 
 document.addEventListener("click", () => {
-  removeActive();
+  if (!e.target.closest("li.item")) {
+    removeActive();
+  }
 });
 
 function handleDuplicate(e, item) {
